@@ -13,18 +13,18 @@ export const $axiosV1 = axios.create({
 });
 
 export const invokeApi = async ({
-    axiosInstance,
+    axiosInstance = $axiosV1,
     path,
     method = "GET",
     body = {},
     headers = {},
     baseURL,
 }: {
-    axiosInstance: AxiosInstance;
+    axiosInstance?: AxiosInstance;
     path: string;
     method: Method;
-    body: object;
-    headers: object;
+    body?: object;
+    headers?: object;
     baseURL?: string;
 }) => {
     try {

@@ -13,9 +13,10 @@ const mainStyles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    padding: "2rem 0",
 };
 const sectionStyles = {
-    width: "23rem",
+    width: "28rem",
     padding: "1.5rem",
     background:
         "linear-gradient(-45deg, rgba(255,255,255,0.05), rgba(255,255,255,0.1))",
