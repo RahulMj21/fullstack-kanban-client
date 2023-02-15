@@ -1,7 +1,7 @@
 import { invokeApi } from "../lib/api";
 import { TLoginInput } from "../schemas/loginSchema";
 import { TRegisterInput } from "../schemas/registerSchema";
-import { IResponse, ITokens } from "../utils/types";
+import { IResponse, ITokens, IUser } from "../utils/types";
 
 export const registerUser = async (input: TRegisterInput) => {
     try {
@@ -15,6 +15,7 @@ export const registerUser = async (input: TRegisterInput) => {
         throw error;
     }
 };
+
 export const loginUser = async (input: TLoginInput) => {
     try {
         const resp = await invokeApi({
@@ -23,6 +24,17 @@ export const loginUser = async (input: TLoginInput) => {
             body: input,
         });
         return resp as IResponse<ITokens>;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getCurrentUser = async () => {
+    try {
+        const resp = await invokeApi({
+            path: "/me",
+        });
+        return resp as IResponse<IUser>;
     } catch (error) {
         throw error;
     }

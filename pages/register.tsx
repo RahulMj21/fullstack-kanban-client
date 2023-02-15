@@ -36,7 +36,8 @@ const Register = () => {
                 router.push("/");
             }
         } catch (error: any) {
-            enqueueSnackbar(error.message, { variant: "error" });
+            const errMsg = error?.response?.data?.message || error.message;
+            enqueueSnackbar(errMsg, { variant: "error" });
         } finally {
             setIsLoading(false);
         }

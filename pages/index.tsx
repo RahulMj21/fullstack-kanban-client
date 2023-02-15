@@ -1,10 +1,10 @@
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
+import BaseLayout from "../components/layout/BaseLayout";
 
 export default function Home() {
     return (
-        <Box>
-            {/* <Typography variant="h1">Kanban Board</Typography> */}
-            <Typography>Kanban Board</Typography>
-        </Box>
+        <BaseLayout title="Boards">
+            <Typography variant="h3">Kanban Board</Typography>
+        </BaseLayout>
     );
 }
