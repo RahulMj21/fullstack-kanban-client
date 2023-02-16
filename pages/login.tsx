@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, FormControl, TextField } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import CustomCircullarProgress from "../components/common/CustomCircullarProgress";
 import AuthLayout from "../components/layout/AuthLayout";
@@ -14,18 +14,14 @@ import { authSubmitButtonStyles, formStyles } from "../styles/theme";
 const Login = () => {
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();
-    const [isLoading, setIsLoading] = useState(false);
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors },
     } = useForm<TLoginInput>({ resolver: zodResolver(LoginSchema) });
-
-    const onSubmit = async (values: TLoginInput) => {
-        try {
-            setIsLoading(true);
-            const resp = await loginUser(values);
+    const { mutate, isLoading } = useMutation(loginUser, {
+        onSuccess: (resp: any) => {
             if (resp.data) {
                 localStorage.setItem("accessToken", resp.data.accessToken);
                 localStorage.setItem("refreshToken", resp.data.refreshToken);
@@ -35,11 +31,18 @@ const Login = () => {
                 reset();
                 router.push("/");
             }
-        } catch (error: any) {
+        },
+        onError: (error: any) => {
             const errMsg = error?.response?.data?.message || error.message;
             enqueueSnackbar(errMsg, { variant: "error" });
-        } finally {
-            setIsLoading(false);
+        },
+    });
+
+    const onSubmit = async (values: TLoginInput) => {
+        try {
+            mutate(values);
+        } catch (error: any) {
+            throw error;
         }
     };
 

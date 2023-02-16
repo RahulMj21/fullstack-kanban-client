@@ -1,10 +1,11 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { ReactNode } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { getUser, setUser } from "../../features/userSlice";
 import { getCurrentUser } from "../../services";
+import { QUERY_ME } from "../../utils/constants";
 import Sidebar from "./Sidebar";
 
 const mainStyles = {
@@ -29,34 +30,20 @@ interface Props {
 
 const BaseLayout = ({ title, children }: Props) => {
     const router = useRouter();
-    const [isLoading, setIsLoding] = useState(true);
     const user = useSelector(getUser);
     const dispatch = useDispatch();
-    const isRetryRef = useRef(false);
 
-    const fetchUser = useCallback(async () => {
-        try {
-            if (user) return;
-            const resp = await getCurrentUser();
-            if (resp.success && resp.data) {
-                dispatch(setUser({ user: resp.data, isAuthenticated: true }));
-            } else {
-                router.push("/login");
-            }
-            setIsLoding(false);
-        } catch (error: any) {
-            router.push("/login");
-        }
-    }, [dispatch, router, user]);
+    const { isLoading, data } = useQuery([QUERY_ME], getCurrentUser, {
+        enabled: !!router && user === null,
+        retry: 1,
+        onSuccess: (resp) =>
+            resp.success &&
+            resp.data &&
+            dispatch(setUser({ user: resp.data, isAuthenticated: true })),
+        onError: () => router.push("/login"),
+    });
 
-    useEffect(() => {
-        if (!isRetryRef.current) {
-            fetchUser();
-        }
-        isRetryRef.current = true;
-    }, [fetchUser]);
-
-    return !isLoading && user ? (
+    return !isLoading && data ? (
         <Box component="main" sx={mainStyles}>
             <Sidebar />
             <Box component="section" title={title} sx={sectionStyles}>
@@ -64,8 +51,48 @@ const BaseLayout = ({ title, children }: Props) => {
             </Box>
         </Box>
     ) : (
-        <Typography>Loading...</Typography>
+        <LayoutSkeleton />
     );
 };
 
 export default BaseLayout;
+
+function LayoutSkeleton() {
+    return (
+        <Box sx={mainStyles}>
+            <Skeleton
+                variant="rectangular"
+                height="100vh"
+                width="14rem"
+                animation="wave"
+            />
+            <Box width="calc(100vw - 14rem)" p="2rem">
+                <Skeleton height={150} width={700} animation="wave" />
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "2rem",
+                        mt: "2rem",
+                    }}
+                >
+                    {[...new Array(4)].map(() => (
+                        <Box key={Math.random()} width={300} gap="1rem">
+                            <Skeleton
+                                variant="rectangular"
+                                height={50}
+                                sx={{ mb: "0.8rem" }}
+                                animation="wave"
+                            />
+                            <Skeleton
+                                variant="rectangular"
+                                height={500}
+                                animation="wave"
+                            />
+                        </Box>
+                    ))}
+                </Box>
+            </Box>
+        </Box>
+    );
+}
