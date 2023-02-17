@@ -1,5 +1,11 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import { ReactNode } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getUser, setUser } from "../../features/userSlice";
+import { getCurrentUser } from "../../services";
+import { QUERY_ME } from "../../utils/constants";
 
 interface Props {
     title: string;
@@ -30,6 +36,21 @@ const sectionStyles = {
 };
 
 const AuthLayout = ({ title, children }: Props) => {
+    const router = useRouter();
+    const user = useSelector(getUser);
+    const dispatch = useDispatch();
+
+    const { isLoading, data } = useQuery([QUERY_ME], getCurrentUser, {
+        enabled: !!router && user === null && typeof window !== "undefined",
+        retry: 1,
+        onSuccess: (resp) => {
+            if (resp.success && resp.data) {
+                dispatch(setUser({ user: resp.data, isAuthenticated: true }));
+                router.push("/");
+            }
+        },
+    });
+
     return (
         <Box component="main" sx={mainStyles}>
             <Box component="section" title={title} sx={sectionStyles}>
@@ -41,7 +62,27 @@ const AuthLayout = ({ title, children }: Props) => {
                 >
                     {title}
                 </Typography>
-                {children}
+                {isLoading || data ? (
+                    <>
+                        <Skeleton
+                            variant="rectangular"
+                            height={50}
+                            animation="wave"
+                        />
+                        <Skeleton
+                            variant="rectangular"
+                            height={50}
+                            animation="wave"
+                        />
+                        <Skeleton
+                            variant="rectangular"
+                            height={50}
+                            animation="wave"
+                        />
+                    </>
+                ) : (
+                    children
+                )}
             </Box>
         </Box>
     );

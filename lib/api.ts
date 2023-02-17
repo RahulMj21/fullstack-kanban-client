@@ -43,7 +43,6 @@ const interceptor = $axiosV1.interceptors.response.use(
     async function (error) {
         if (error.response.status === 401) {
             $axiosV1.interceptors.response.eject(interceptor);
-
             const resp = await invokeApi({ path: "/refresh" });
             if (resp?.data?.accessToken) {
                 localStorage.setItem("accessToken", resp.data.accessToken);

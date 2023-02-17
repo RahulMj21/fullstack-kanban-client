@@ -34,7 +34,7 @@ const BaseLayout = ({ title, children }: Props) => {
     const dispatch = useDispatch();
 
     const { isLoading, data } = useQuery([QUERY_ME], getCurrentUser, {
-        enabled: !!router && user === null,
+        enabled: !!router && user === null && typeof window !== "undefined",
         retry: 1,
         onSuccess: (resp) =>
             resp.success &&
