@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getUser, setUser } from "../../features/userSlice";
-import { getCurrentUser } from "../../services";
+import { getCurrentUser } from "../../services/users";
 import { QUERY_ME } from "../../utils/constants";
 
 interface Props {
@@ -62,7 +62,7 @@ const AuthLayout = ({ title, children }: Props) => {
                 >
                     {title}
                 </Typography>
-                {isLoading || data ? (
+                {isLoading && !data ? (
                     <>
                         <Skeleton
                             variant="rectangular"

@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import CustomCircullarProgress from "../components/common/CustomCircullarProgress";
 import AuthLayout from "../components/layout/AuthLayout";
 import { RegisterSchema, TRegisterInput } from "../schemas/registerSchema";
-import { registerUser } from "../services";
+import { registerUser } from "../services/users";
 import { authSubmitButtonStyles, formStyles } from "../styles/theme";
 
 const Register = () => {
@@ -21,7 +21,7 @@ const Register = () => {
         formState: { errors },
     } = useForm<TRegisterInput>({ resolver: zodResolver(RegisterSchema) });
     const { mutate, isLoading } = useMutation(registerUser, {
-        onSuccess: (resp: any) => {
+        onSuccess: (resp) => {
             if (resp.data) {
                 localStorage.setItem("accessToken", resp.data.accessToken);
                 localStorage.setItem("refreshToken", resp.data.refreshToken);

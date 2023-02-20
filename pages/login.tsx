@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import CustomCircullarProgress from "../components/common/CustomCircullarProgress";
 import AuthLayout from "../components/layout/AuthLayout";
 import { LoginSchema, TLoginInput } from "../schemas/loginSchema";
-import { loginUser } from "../services";
+import { loginUser } from "../services/users";
 import { authSubmitButtonStyles, formStyles } from "../styles/theme";
 
 const Login = () => {
@@ -21,7 +21,7 @@ const Login = () => {
         formState: { errors },
     } = useForm<TLoginInput>({ resolver: zodResolver(LoginSchema) });
     const { mutate, isLoading } = useMutation(loginUser, {
-        onSuccess: (resp: any) => {
+        onSuccess: (resp) => {
             if (resp.data) {
                 localStorage.setItem("accessToken", resp.data.accessToken);
                 localStorage.setItem("refreshToken", resp.data.refreshToken);

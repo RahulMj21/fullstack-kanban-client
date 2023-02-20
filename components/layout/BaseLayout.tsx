@@ -1,12 +1,15 @@
-import { Box, Skeleton } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { Box, Button, Skeleton } from "@mui/material";
+import { Logout } from "@mui/icons-material";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser, setUser } from "../../features/userSlice";
-import { getCurrentUser } from "../../services";
+import { clearUser, getUser, setUser } from "../../features/userSlice";
+import { getCurrentUser, logoutUser } from "../../services/users";
 import { QUERY_ME } from "../../utils/constants";
 import Sidebar from "./Sidebar";
+import CustomCircullarProgress from "../common/CustomCircullarProgress";
+import { useSnackbar } from "notistack";
 
 const mainStyles = {
     background: "#333",
@@ -18,7 +21,8 @@ const mainStyles = {
 };
 
 const sectionStyles = {
-    padding: "1.5rem",
+    position: "relative",
+    padding: "2.5rem 2rem",
     overflowY: "auto",
     width: "100%",
 };
@@ -32,6 +36,7 @@ const BaseLayout = ({ title, children }: Props) => {
     const router = useRouter();
     const user = useSelector(getUser);
     const dispatch = useDispatch();
+    const { enqueueSnackbar } = useSnackbar();
 
     const { isLoading, data } = useQuery([QUERY_ME], getCurrentUser, {
         enabled: !!router && user === null && typeof window !== "undefined",
@@ -42,11 +47,40 @@ const BaseLayout = ({ title, children }: Props) => {
             dispatch(setUser({ user: resp.data, isAuthenticated: true })),
         onError: () => router.push("/login"),
     });
+    const { isLoading: isLogoutLoading, mutate } = useMutation(logoutUser, {
+        onSuccess: (data) => {
+            if (data.success) {
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+                dispatch(clearUser());
+                router.push("/login");
+            }
+        },
+        onError: (err: any) => {
+            const msg = err?.response?.data?.message || err.message;
+            enqueueSnackbar(msg, { variant: "error" });
+        },
+    });
 
     return !isLoading && data ? (
         <Box component="main" sx={mainStyles}>
             <Sidebar />
             <Box component="section" title={title} sx={sectionStyles}>
+                <Button
+                    startIcon={<Logout />}
+                    variant="contained"
+                    sx={{
+                        position: "absolute",
+                        top: "2rem",
+                        right: "2rem",
+                        padding: "0.4rem 1.3rem",
+                        textTransform: "capitalize",
+                    }}
+                    onClick={() => mutate()}
+                >
+                    Logout
+                    {isLogoutLoading && <CustomCircullarProgress />}
+                </Button>
                 {children}
             </Box>
         </Box>

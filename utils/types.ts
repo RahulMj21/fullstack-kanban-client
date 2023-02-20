@@ -1,8 +1,10 @@
 import { AxiosInstance, Method } from "axios";
 
-export interface IResponse<T extends object> {
+export interface IResponse {
     success: boolean;
     message?: string;
+}
+export interface IResponseWithData<T extends object> extends IResponse {
     data?: T;
 }
 
@@ -31,4 +33,16 @@ export interface IInvokeApi {
     body?: object;
     headers?: object;
     baseURL?: string;
+}
+
+export interface IBoard {
+    _id: string;
+    user: { _id: string; name: string };
+    icon: string;
+    title: string;
+    description: string;
+    position?: number;
+    favourite: boolean;
+    createdAt: Date;
+    updatedAt: Date;
 }

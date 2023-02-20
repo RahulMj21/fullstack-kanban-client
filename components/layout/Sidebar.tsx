@@ -1,6 +1,11 @@
 import { MenuOutlined } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setBoards } from "../../features/boardSlice";
+import { getAllBoards } from "../../services/boards";
+import { QUERY_ALL_BOARDS } from "../../utils/constants";
 
 const sidebarStyles = {
     position: "relative",
@@ -20,6 +25,14 @@ const menuButtonStyles = {
 
 const Sidebar = () => {
     const [menuToggled, setMenuToggled] = useState(false);
+    const dispatch = useDispatch();
+
+    useQuery([QUERY_ALL_BOARDS], getAllBoards, {
+        onSuccess: (data) => {
+            console.log(data);
+            if (data.success) dispatch(setBoards(data?.data || []));
+        },
+    });
 
     return (
         <Box
