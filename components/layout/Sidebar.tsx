@@ -2,8 +2,9 @@ import { MenuOutlined } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { setBoards } from "../../features/boardSlice";
+import { getBoards, setBoards } from "../../features/boardSlice";
 import { getAllBoards } from "../../services/boards";
 import { QUERY_ALL_BOARDS } from "../../utils/constants";
 
@@ -25,6 +26,7 @@ const menuButtonStyles = {
 
 const Sidebar = () => {
     const [menuToggled, setMenuToggled] = useState(false);
+    const boards = useSelector(getBoards);
     const dispatch = useDispatch();
 
     useQuery([QUERY_ALL_BOARDS], getAllBoards, {

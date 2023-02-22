@@ -18,3 +18,20 @@ export const getAllBoards = async () => {
         throw error;
     }
 };
+
+export const createBoard = async () => {
+    try {
+        const { accessToken, refreshToken } = getTokens();
+
+        const resp: IResponseWithData<IBoard> = await invokeApi({
+            path: "/boards/create",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "X-Refresh": refreshToken,
+            },
+        });
+        return resp;
+    } catch (error) {
+        throw error;
+    }
+};
