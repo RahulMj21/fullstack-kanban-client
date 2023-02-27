@@ -14,12 +14,12 @@ export const formStyles = {
     pb: "1rem",
 };
 
-export const authSubmitButtonStyles = {
+export const formSubmitButtonStyles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     gap: "0.4rem",
-    borderRadius: "0.5rem",
+    borderRadius: "0.2rem",
     boxShadow: "none",
     mt: "1rem",
 };

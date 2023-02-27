@@ -9,7 +9,7 @@ import CustomCircullarProgress from "../components/common/CustomCircullarProgres
 import AuthLayout from "../components/layout/AuthLayout";
 import { LoginSchema, TLoginInput } from "../schemas/loginSchema";
 import { loginUser } from "../services/users";
-import { authSubmitButtonStyles, formStyles } from "../styles/theme";
+import { formSubmitButtonStyles, formStyles } from "../styles/theme";
 
 const Login = () => {
     const router = useRouter();
@@ -72,7 +72,7 @@ const Login = () => {
                     {...register("password")}
                 />
                 <Button
-                    sx={authSubmitButtonStyles}
+                    sx={formSubmitButtonStyles}
                     type="submit"
                     variant="contained"
                 >

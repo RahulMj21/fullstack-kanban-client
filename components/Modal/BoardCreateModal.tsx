@@ -1,16 +1,25 @@
-import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    IconButton,
-    Typography,
-    Button,
-} from "@mui/material";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Close } from "@mui/icons-material";
-import { useMutation } from "@tanstack/react-query";
-import { createBoard } from "../../services/boards";
+import {
+    Button,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    FormControl,
+    IconButton,
+    TextField,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useMutation } from "@tanstack/react-query";
+import { useSnackbar } from "notistack";
+import { SubmitHandler, useForm } from "react-hook-form";
+import {
+    CreateBoardInput,
+    CreateBoardSchema,
+} from "../../schemas/createBoardSchema";
+import { createBoard } from "../../services/boards";
+import { formSubmitButtonStyles } from "../../styles/theme";
+import CustomCircullarProgress from "../common/CustomCircullarProgress";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     "& .MuiDialogContent-root": {
@@ -33,7 +42,10 @@ const BootstrapDialogTitle = ({
     ...props
 }: DialogTitleProps) => {
     return (
-        <DialogTitle sx={{ m: 0, p: 2 }} {...props}>
+        <DialogTitle
+            sx={{ m: 0, p: 2, textTransform: "capitalize" }}
+            {...props}
+        >
             {children}
             {onClose ? (
                 <IconButton
@@ -54,44 +66,93 @@ const BootstrapDialogTitle = ({
 };
 
 interface Props {
+    title: string;
     onClose: () => void;
     isOpen: boolean;
 }
 
-const BoardCreateModal = ({ onClose, isOpen }: Props) => {
-    const { mutate, isLoading } = useMutation(createBoard);
+const BoardCreateModal = ({ title, onClose, isOpen }: Props) => {
+    const { enqueueSnackbar } = useSnackbar();
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm<CreateBoardInput>({
+        resolver: zodResolver(CreateBoardSchema),
+    });
+    const { mutate, isLoading } = useMutation(createBoard, {
+        onSuccess: (data) => {
+            if (data.success) {
+                enqueueSnackbar("Board Created Successfully", {
+                    variant: "success",
+                });
+                reset();
+                onClose();
+            }
+        },
+        onError: (error: any) => {
+            const errMsg = error?.response?.data?.message || error.message;
+            enqueueSnackbar(errMsg, { variant: "error" });
+        },
+    });
+
+    const onSubmit: SubmitHandler<CreateBoardInput> = async (values) => {
+        try {
+            mutate(values);
+        } catch (error) {}
+    };
+
     return (
         <BootstrapDialog
             open={isOpen}
             onClose={onClose}
-            aria-labelledby="create-modal"
+            aria-labelledby={title}
         >
-            <BootstrapDialogTitle id="createBoard" onClose={onClose}>
-                Create Board
+            <BootstrapDialogTitle id={title} onClose={onClose}>
+                {title.replaceAll("-", " ")}
             </BootstrapDialogTitle>
             <DialogContent dividers>
-                <Typography gutterBottom>
-                    Cras mattis consectetur purus sit amet fermentum. Cras justo
-                    odio, dapibus ac facilisis in, egestas eget quam. Morbi leo
-                    risus, porta ac consectetur ac, vestibulum at eros.
-                </Typography>
-                <Typography gutterBottom>
-                    Praesent commodo cursus magna, vel scelerisque nisl
-                    consectetur et. Vivamus sagittis lacus vel augue laoreet
-                    rutrum faucibus dolor auctor.
-                </Typography>
-                <Typography gutterBottom>
-                    Aenean lacinia bibendum nulla sed consectetur. Praesent
-                    commodo cursus magna, vel scelerisque nisl consectetur et.
-                    Donec sed odio dui. Donec ullamcorper nulla non metus auctor
-                    fringilla.
-                </Typography>
+                <FormControl
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        width: "25rem",
+                        maxWidth: "100%",
+                        gap: "1.5rem",
+                    }}
+                    component="form"
+                    onSubmit={handleSubmit(onSubmit)}
+                >
+                    <TextField
+                        error={!!errors.title}
+                        label="Title"
+                        helperText={errors.title ? errors.title.message : null}
+                        variant="outlined"
+                        {...register("title")}
+                    />
+                    <TextField
+                        error={!!errors.description}
+                        label="Description"
+                        helperText={
+                            errors.description
+                                ? errors.description.message
+                                : null
+                        }
+                        variant="outlined"
+                        {...register("description")}
+                    />
+                    <Button
+                        sx={formSubmitButtonStyles}
+                        variant="contained"
+                        autoFocus
+                        type="submit"
+                    >
+                        create
+                        {isLoading && <CustomCircullarProgress />}
+                    </Button>
+                </FormControl>
             </DialogContent>
-            <DialogActions>
-                <Button autoFocus onClick={onClose}>
-                    Save changes
-                </Button>
-            </DialogActions>
         </BootstrapDialog>
     );
 };

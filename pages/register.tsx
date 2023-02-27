@@ -9,7 +9,7 @@ import CustomCircullarProgress from "../components/common/CustomCircullarProgres
 import AuthLayout from "../components/layout/AuthLayout";
 import { RegisterSchema, TRegisterInput } from "../schemas/registerSchema";
 import { registerUser } from "../services/users";
-import { authSubmitButtonStyles, formStyles } from "../styles/theme";
+import { formSubmitButtonStyles, formStyles } from "../styles/theme";
 
 const Register = () => {
     const router = useRouter();
@@ -91,7 +91,7 @@ const Register = () => {
                     {...register("confirmPassword")}
                 />
                 <Button
-                    sx={authSubmitButtonStyles}
+                    sx={formSubmitButtonStyles}
                     type="submit"
                     variant="contained"
                 >
