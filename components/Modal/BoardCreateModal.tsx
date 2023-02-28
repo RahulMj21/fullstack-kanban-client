@@ -13,6 +13,10 @@ import { styled } from "@mui/material/styles";
 import { useMutation } from "@tanstack/react-query";
 import { useSnackbar } from "notistack";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { getBoards, setBoards } from "../../features/boardSlice";
+import { getUser } from "../../features/userSlice";
 import {
     CreateBoardInput,
     CreateBoardSchema,
@@ -73,6 +77,10 @@ interface Props {
 
 const BoardCreateModal = ({ title, onClose, isOpen }: Props) => {
     const { enqueueSnackbar } = useSnackbar();
+    const dispatch = useDispatch();
+    const boards = useSelector(getBoards);
+    const user = useSelector(getUser);
+
     const {
         register,
         handleSubmit,
@@ -82,8 +90,9 @@ const BoardCreateModal = ({ title, onClose, isOpen }: Props) => {
         resolver: zodResolver(CreateBoardSchema),
     });
     const { mutate, isLoading } = useMutation(createBoard, {
-        onSuccess: (data) => {
-            if (data.success) {
+        onSuccess: async (data) => {
+            if (data.success && data.data) {
+                dispatch(setBoards([...boards.allBoards, data.data]));
                 enqueueSnackbar("Board Created Successfully", {
                     variant: "success",
                 });
@@ -96,6 +105,8 @@ const BoardCreateModal = ({ title, onClose, isOpen }: Props) => {
             enqueueSnackbar(errMsg, { variant: "error" });
         },
     });
+
+    console.log(user);
 
     const onSubmit: SubmitHandler<CreateBoardInput> = async (values) => {
         try {

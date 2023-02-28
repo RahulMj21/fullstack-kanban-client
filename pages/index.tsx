@@ -1,5 +1,5 @@
 import { LoadingButton } from "@mui/lab";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import BaseLayout from "../components/layout/BaseLayout";
@@ -13,7 +13,6 @@ export default function Home() {
     const onOpen = () => setIsModalOpen(true);
     const onClose = () => setIsModalOpen(false);
 
-    // console.log(boards);
     return (
         <BaseLayout title="Boards">
             <Box
@@ -30,7 +29,7 @@ export default function Home() {
                     isOpen={isModalOpen}
                     onClose={onClose}
                 />
-                {boards.length > 0 && (
+                {boards.boardsCount === 0 ? (
                     <LoadingButton
                         variant="outlined"
                         color="success"
@@ -38,6 +37,8 @@ export default function Home() {
                     >
                         Click here to create your first board.
                     </LoadingButton>
+                ) : (
+                    <Typography>{JSON.stringify(boards.allBoards)}</Typography>
                 )}
             </Box>
         </BaseLayout>

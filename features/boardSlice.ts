@@ -3,17 +3,22 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
 import { IBoard } from "../utils/types";
 
-const initialState: IBoard[] = [];
+const initialState: { allBoards: IBoard[]; boardsCount: number } = {
+    allBoards: [],
+    boardsCount: 0,
+};
 
 export const boardSlice = createSlice({
     name: "boards",
     initialState,
     reducers: {
         setBoards: (state, action: PayloadAction<IBoard[]>) => {
-            state = action.payload;
+            state.allBoards = action.payload;
+            state.boardsCount = action.payload.length;
         },
         clearBoards: (state) => {
-            state = [];
+            state.allBoards = [];
+            state.boardsCount = 0;
         },
     },
 });
