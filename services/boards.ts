@@ -20,6 +20,23 @@ export const getAllBoards = async () => {
     }
 };
 
+export const getSingleBoard = async (boardId: string) => {
+    try {
+        const { accessToken, refreshToken } = getTokens();
+
+        const resp: IResponseWithData<IBoard> = await invokeApi({
+            path: `/boards/${boardId}`,
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "X-Refresh": refreshToken,
+            },
+        });
+        return resp;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const createBoard = async (body: CreateBoardInput) => {
     try {
         const { accessToken, refreshToken } = getTokens();

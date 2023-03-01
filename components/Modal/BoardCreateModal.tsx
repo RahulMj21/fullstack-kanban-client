@@ -106,8 +106,6 @@ const BoardCreateModal = ({ title, onClose, isOpen }: Props) => {
         },
     });
 
-    console.log(user);
-
     const onSubmit: SubmitHandler<CreateBoardInput> = async (values) => {
         try {
             mutate(values);

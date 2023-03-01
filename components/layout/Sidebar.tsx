@@ -31,7 +31,6 @@ const Sidebar = () => {
 
     useQuery([QUERY_ALL_BOARDS], getAllBoards, {
         onSuccess: (data) => {
-            console.log(data);
             if (data.success) dispatch(setBoards(data?.data || []));
         },
     });

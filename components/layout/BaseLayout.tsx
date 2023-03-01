@@ -30,9 +30,10 @@ const sectionStyles = {
 interface Props {
     title: string;
     children: ReactNode;
+    loading?: boolean;
 }
 
-const BaseLayout = ({ title, children }: Props) => {
+const BaseLayout = ({ title, children, loading = false }: Props) => {
     const router = useRouter();
     const user = useSelector(getUser);
     const dispatch = useDispatch();
@@ -62,7 +63,7 @@ const BaseLayout = ({ title, children }: Props) => {
         },
     });
 
-    return !isLoading && data ? (
+    return !isLoading && !loading && data ? (
         <Box component="main" sx={mainStyles}>
             <Sidebar />
             <Box component="section" title={title} sx={sectionStyles}>
