@@ -11,12 +11,11 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getBoards, setBoards } from "../../features/boardSlice";
-import { getUser } from "../../features/userSlice";
 import {
     CreateBoardInput,
     CreateBoardSchema,
@@ -77,9 +76,7 @@ interface Props {
 
 const BoardCreateModal = ({ title, onClose, isOpen }: Props) => {
     const { enqueueSnackbar } = useSnackbar();
-    const dispatch = useDispatch();
-    const boards = useSelector(getBoards);
-    const user = useSelector(getUser);
+    const router = useRouter();
 
     const {
         register,
@@ -92,11 +89,11 @@ const BoardCreateModal = ({ title, onClose, isOpen }: Props) => {
     const { mutate, isLoading } = useMutation(createBoard, {
         onSuccess: async (data) => {
             if (data.success && data.data) {
-                dispatch(setBoards([...boards.allBoards, data.data]));
                 enqueueSnackbar("Board Created Successfully", {
                     variant: "success",
                 });
                 reset();
+                router.push(`/board/${data.data._id}`);
                 onClose();
             }
         },

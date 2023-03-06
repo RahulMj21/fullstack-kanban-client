@@ -10,7 +10,7 @@ const SingleBoard = () => {
     const boardId = router.query.boardId as string;
 
     const { data, isLoading } = useQuery(
-        [QUERY_SINGLE_BOARD],
+        [QUERY_SINGLE_BOARD, boardId],
         () => getSingleBoard(boardId),
         {
             enabled: !!boardId,
