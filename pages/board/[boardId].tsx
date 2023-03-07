@@ -19,8 +19,13 @@ const SingleBoard = () => {
 
     return (
         <BaseLayout loading={isLoading && !data} title="single board">
-            <Typography variant="h3">BOARD :</Typography>
-            <Typography>{JSON.stringify(data?.data)}</Typography>
+            <Typography variant="h3">
+                BOARD :
+                <Typography component="span" variant="h4">
+                    {" "}
+                    {data?.data?.title}
+                </Typography>
+            </Typography>
         </BaseLayout>
     );
 };

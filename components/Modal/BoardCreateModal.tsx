@@ -17,7 +17,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { getBoards, setBoards } from "../../features/boardSlice";
 import {
-    CreateBoardInput,
+    ICreateBoardInput,
     CreateBoardSchema,
 } from "../../schemas/createBoardSchema";
 import { createBoard } from "../../services/boards";
@@ -83,7 +83,7 @@ const BoardCreateModal = ({ title, onClose, isOpen }: Props) => {
         handleSubmit,
         reset,
         formState: { errors },
-    } = useForm<CreateBoardInput>({
+    } = useForm<ICreateBoardInput>({
         resolver: zodResolver(CreateBoardSchema),
     });
     const { mutate, isLoading } = useMutation(createBoard, {
@@ -103,7 +103,7 @@ const BoardCreateModal = ({ title, onClose, isOpen }: Props) => {
         },
     });
 
-    const onSubmit: SubmitHandler<CreateBoardInput> = async (values) => {
+    const onSubmit: SubmitHandler<ICreateBoardInput> = async (values) => {
         try {
             mutate(values);
         } catch (error) {}

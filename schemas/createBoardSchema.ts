@@ -11,4 +11,4 @@ export const CreateBoardSchema = object({
         .optional(),
 });
 
-export type CreateBoardInput = TypeOf<typeof CreateBoardSchema>;
+export type ICreateBoardInput = TypeOf<typeof CreateBoardSchema>;
