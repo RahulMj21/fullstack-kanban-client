@@ -1,5 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, FormControl, TextField } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import FormControl from "@mui/material/FormControl";
+import Button from "@mui/material/Button";
 import { useMutation } from "@tanstack/react-query";
 import NextLink from "next/link";
 import { useRouter } from "next/router";

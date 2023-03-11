@@ -1,5 +1,7 @@
-import { Box, Button, Skeleton } from "@mui/material";
-import { Logout } from "@mui/icons-material";
+import Skeleton from "@mui/material/Skeleton";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
@@ -70,7 +72,7 @@ const BaseLayout = ({ title, children, loading = false }: Props) => {
             <Sidebar />
             <Box component="section" title={title} sx={sectionStyles}>
                 <Button
-                    startIcon={<Logout />}
+                    startIcon={<LogoutIcon />}
                     variant="contained"
                     color="error"
                     sx={{
@@ -82,7 +84,7 @@ const BaseLayout = ({ title, children, loading = false }: Props) => {
                     }}
                     onClick={() => mutate()}
                 >
-                    Logout
+                    Log out
                     {isLogoutLoading && <CustomCircullarProgress />}
                 </Button>
                 {children}

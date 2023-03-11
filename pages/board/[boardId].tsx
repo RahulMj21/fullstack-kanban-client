@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import BaseLayout from "../../components/layout/BaseLayout";

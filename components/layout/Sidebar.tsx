@@ -1,20 +1,19 @@
-import { Box, Button } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSnackbar } from "notistack";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBoards, setBoards } from "../../features/boardSlice";
 import { getAllBoards, updateBoardPosition } from "../../services/boards";
 import { QUERY_ALL_BOARDS } from "../../utils/constants";
 import SidebarAllBoardsList from "../common/SidebarAllBoardsList";
-import BoardCreateModal from "../Modal/BoardCreateModal";
 
 const sidebarStyles = {
     position: "fixed",
     top: "0",
     left: "0",
     background: "#555",
-    paddingY: "2.5rem",
+    paddingY: "2rem",
     display: "flex",
     height: "100vh",
     flexDirection: "column",
@@ -22,7 +21,6 @@ const sidebarStyles = {
 };
 
 const Sidebar = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const dispatch = useDispatch();
     const boards = useSelector(getBoards);
     const { enqueueSnackbar } = useSnackbar();
@@ -65,19 +63,13 @@ const Sidebar = () => {
 
     return (
         <Box component="aside" width="15rem" title="sidebar" sx={sidebarStyles}>
-            <BoardCreateModal
-                title="create-board"
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-            />
-            <Button
-                variant="contained"
-                color="success"
-                sx={{ mx: "1rem" }}
-                onClick={() => setIsModalOpen(true)}
+            <Typography
+                textAlign="center"
+                variant="h4"
+                style={{ fontFamily: "Rock Salt" }}
             >
-                Add
-            </Button>
+                Kanban
+            </Typography>
             <SidebarAllBoardsList
                 handleDragEnd={handleDragEnd}
                 boards={boards}

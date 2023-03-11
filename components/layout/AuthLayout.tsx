@@ -1,4 +1,6 @@
-import { Box, Skeleton, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
+import Typography from "@mui/material/Typography";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";

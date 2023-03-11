@@ -1,5 +1,5 @@
-import { LoadingButton } from "@mui/lab";
-import { Box, Typography } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSelector } from "react-redux";

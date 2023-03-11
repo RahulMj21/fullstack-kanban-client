@@ -1,15 +1,16 @@
-import { AddBox } from "@mui/icons-material";
-import {
-    Box,
-    List,
-    ListItemButton,
-    ListItemText,
-    Typography,
-} from "@mui/material";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import AddBoxIcon from "@mui/icons-material/AddBoxOutlined";
+import Box from "@mui/material/Box";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
 import NextLink from "next/link";
-import { IBoard } from "../../utils/types";
 import { useRouter } from "next/router";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { IBoard } from "../../utils/types";
+import BoardCreateModal from "../Modal/BoardCreateModal";
+import { useState } from "react";
 
 interface IBoards {
     allBoards: IBoard[];
@@ -30,21 +31,43 @@ interface Props {
 
 const SidebarAllBoardsList = ({ handleDragEnd, boards }: Props) => {
     const router = useRouter();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <>
-            <Typography
-                mt="1.875rem"
-                fontSize="1.15rem"
+            <BoardCreateModal
+                title="create-board"
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+            />
+            <Box
                 sx={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "0.625rem",
-                    px: "0.75rem",
+                    justifyContent: "space-between",
+                    gap: "2rem",
+                    mt: "1.875rem",
+                    px: "0.9rem",
                 }}
             >
-                <AddBox fontSize="small" /> Boards
-            </Typography>
+                <Typography
+                    fontSize="1.15rem"
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.625rem",
+                    }}
+                >
+                    Boards
+                </Typography>
+                <IconButton
+                    title="click to create a new board"
+                    aria-label="click to create a new board"
+                    onClick={() => setIsModalOpen(true)}
+                >
+                    <AddBoxIcon fontSize="small" />
+                </IconButton>
+            </Box>
             <List>
                 <DragDropContext onDragEnd={handleDragEnd}>
                     <Droppable
@@ -52,7 +75,7 @@ const SidebarAllBoardsList = ({ handleDragEnd, boards }: Props) => {
                         key="list-board-droppable"
                     >
                         {(provided) => (
-                            <Box
+                            <div
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}
                             >
@@ -66,11 +89,12 @@ const SidebarAllBoardsList = ({ handleDragEnd, boards }: Props) => {
                                             {(provided, snapshot) => (
                                                 <NextLink
                                                     href={`/board/${board._id}`}
-                                                    ref={provided.innerRef}
-                                                    {...provided.dragHandleProps}
-                                                    {...provided.draggableProps}
                                                 >
                                                     <ListItemButton
+                                                        title={board.title}
+                                                        ref={provided.innerRef}
+                                                        {...provided.dragHandleProps}
+                                                        {...provided.draggableProps}
                                                         sx={{
                                                             cursor: snapshot.isDragging
                                                                 ? "grab"
@@ -96,7 +120,8 @@ const SidebarAllBoardsList = ({ handleDragEnd, boards }: Props) => {
                                         </Draggable>
                                     );
                                 })}
-                            </Box>
+                                {provided.placeholder}
+                            </div>
                         )}
                     </Droppable>
                 </DragDropContext>

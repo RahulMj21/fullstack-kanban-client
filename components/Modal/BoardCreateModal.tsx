@@ -1,21 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Close } from "@mui/icons-material";
-import {
-    Button,
-    Dialog,
-    DialogContent,
-    DialogTitle,
-    FormControl,
-    IconButton,
-    TextField,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
+import CloseIcon from "@mui/icons-material/Close";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import FormControl from "@mui/material/FormControl/FormControl";
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+import styled from "@mui/material/styles/styled";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { getBoards, setBoards } from "../../features/boardSlice";
 import {
     ICreateBoardInput,
     CreateBoardSchema,
@@ -61,7 +57,7 @@ const BootstrapDialogTitle = ({
                         color: (theme) => theme.palette.grey[500],
                     }}
                 >
-                    <Close />
+                    <CloseIcon />
                 </IconButton>
             ) : null}
         </DialogTitle>
