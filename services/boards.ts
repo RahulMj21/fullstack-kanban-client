@@ -1,7 +1,8 @@
+import axios from "axios";
 import { invokeApi } from "../lib/api";
 import { ICreateBoardInput } from "../schemas/createBoardSchema";
 import { getTokens } from "../utils/helper";
-import { IBoard, IResponseWithData } from "../utils/types";
+import { IBoard, IResponse, IResponseWithData } from "../utils/types";
 
 export const getAllBoards = async () => {
     try {
@@ -56,11 +57,13 @@ export const createBoard = async (body: ICreateBoardInput) => {
     }
 };
 
-export const updateBoardPosition = async (body: { _id: string }[]) => {
+export const updateBoardPosition = async (body: {
+    boards: { _id: string }[];
+}) => {
     try {
         const { accessToken, refreshToken } = getTokens();
 
-        const resp: IResponseWithData<IBoard> = await invokeApi({
+        const resp: IResponse = await invokeApi({
             path: "/boards/update-position",
             method: "PUT",
             body,
@@ -69,6 +72,17 @@ export const updateBoardPosition = async (body: { _id: string }[]) => {
                 "X-Refresh": refreshToken,
             },
         });
+        // const resp = await axios.put(
+        //     `http://localhost:4000/api/v1/boards/update-position`,
+        //     body,
+        //     {
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //             Authorization: `Bearer ${accessToken}`,
+        //             "X-Refresh": refreshToken,
+        //         },
+        //     }
+        // );
         return resp;
     } catch (error) {
         throw error;

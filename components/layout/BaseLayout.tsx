@@ -15,16 +15,18 @@ const mainStyles = {
     background: "#333",
     height: "100vh",
     width: "100%",
-    display: "flex",
     overflow: "hidden",
+    position: "ralative",
     transition: "all 0.4s ease",
 };
 
 const sectionStyles = {
+    top: "0",
+    left: "15rem",
+    width: "calc(100vw - 15rem)",
     position: "relative",
     padding: "2.5rem 2rem",
     overflowY: "auto",
-    width: "100%",
 };
 
 interface Props {
@@ -70,6 +72,7 @@ const BaseLayout = ({ title, children, loading = false }: Props) => {
                 <Button
                     startIcon={<Logout />}
                     variant="contained"
+                    color="error"
                     sx={{
                         position: "absolute",
                         top: "2rem",
@@ -98,10 +101,10 @@ function LayoutSkeleton() {
             <Skeleton
                 variant="rectangular"
                 height="100vh"
-                width="14rem"
+                width="15rem"
                 animation="wave"
             />
-            <Box width="calc(100vw - 14rem)" p="2rem">
+            <Box width="calc(100vw - 15rem)" p="2rem">
                 <Skeleton height={150} width={700} animation="wave" />
                 <Box
                     sx={{
