@@ -32,7 +32,7 @@ export const getSingleBoard = async (boardId: string) => {
                 "X-Refresh": refreshToken,
             },
         });
-        return resp;
+        return resp.data;
     } catch (error) {
         throw error;
     }
