@@ -2,7 +2,12 @@ import axios from "axios";
 import { invokeApi } from "../lib/api";
 import { ICreateBoardInput } from "../schemas/createBoardSchema";
 import { getTokens } from "../utils/helper";
-import { IBoard, IResponse, IResponseWithData } from "../utils/types";
+import {
+    IBoard,
+    IGetSingleBoardResponse,
+    IResponse,
+    IResponseWithData,
+} from "../utils/types";
 
 export const getAllBoards = async () => {
     try {
@@ -25,13 +30,14 @@ export const getSingleBoard = async (boardId: string) => {
     try {
         const { accessToken, refreshToken } = getTokens();
 
-        const resp: IResponseWithData<IBoard> = await invokeApi({
-            path: `/boards/${boardId}`,
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-                "X-Refresh": refreshToken,
-            },
-        });
+        const resp: IResponseWithData<IGetSingleBoardResponse> =
+            await invokeApi({
+                path: `/boards/${boardId}`,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    "X-Refresh": refreshToken,
+                },
+            });
         return resp.data;
     } catch (error) {
         throw error;

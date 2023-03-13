@@ -46,3 +46,7 @@ export interface IBoard {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export interface IGetSingleBoardResponse extends IBoard {
+    sections: any[];
+}
