@@ -7,10 +7,10 @@ import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import { useDispatch, useSelector } from "react-redux";
 import { getBoards, setBoards } from "../../features/boardSlice";
-import { clearUser } from "../../features/userSlice";
-import { getAllBoards, updateBoardPosition } from "../../services/boards";
+import { clearUser, getUser } from "../../features/userSlice";
+import { getMyBoards, updateBoardPosition } from "../../services/boards";
 import { logoutUser } from "../../services/users";
-import { QUERY_ALL_BOARDS } from "../../utils/constants";
+import { QUERY_My_BOARDS } from "../../utils/constants";
 import CustomCircullarProgress from "../common/CustomCircullarProgress";
 import SidebarAllBoardsList from "../common/SidebarAllBoardsList";
 import Logo from "../icons/Logo";
@@ -32,9 +32,11 @@ const Sidebar = () => {
     const dispatch = useDispatch();
     const router = useRouter();
     const boards = useSelector(getBoards);
+    const user = useSelector(getUser);
     const { enqueueSnackbar } = useSnackbar();
 
-    useQuery([QUERY_ALL_BOARDS], getAllBoards, {
+    useQuery([QUERY_My_BOARDS], () => getMyBoards(user?._id as string), {
+        enabled: !!user,
         onSuccess: (data) => {
             if (data.success) dispatch(setBoards(data?.data || []));
         },

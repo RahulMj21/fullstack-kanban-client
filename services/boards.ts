@@ -26,6 +26,23 @@ export const getAllBoards = async () => {
     }
 };
 
+export const getMyBoards = async (userId: string) => {
+    try {
+        const { accessToken, refreshToken } = getTokens();
+
+        const resp: IResponseWithData<IBoard[]> = await invokeApi({
+            path: `/boards/${userId}`,
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "X-Refresh": refreshToken,
+            },
+        });
+        return resp;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const getSingleBoard = async (boardId: string) => {
     try {
         const { accessToken, refreshToken } = getTokens();
@@ -78,17 +95,6 @@ export const updateBoardPosition = async (body: {
                 "X-Refresh": refreshToken,
             },
         });
-        // const resp = await axios.put(
-        //     `http://localhost:4000/api/v1/boards/update-position`,
-        //     body,
-        //     {
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //             Authorization: `Bearer ${accessToken}`,
-        //             "X-Refresh": refreshToken,
-        //         },
-        //     }
-        // );
         return resp;
     } catch (error) {
         throw error;
