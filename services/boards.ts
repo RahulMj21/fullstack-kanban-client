@@ -31,7 +31,7 @@ export const getMyBoards = async (userId: string) => {
         const { accessToken, refreshToken } = getTokens();
 
         const resp: IResponseWithData<IBoard[]> = await invokeApi({
-            path: `/boards/${userId}`,
+            path: `/boards/user/${userId}`,
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 "X-Refresh": refreshToken,
