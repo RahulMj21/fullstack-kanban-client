@@ -100,3 +100,22 @@ export const updateBoardPosition = async (body: {
         throw error;
     }
 };
+
+export const updateBoard = async (body: { boards: { _id: string }[] }) => {
+    try {
+        const { accessToken, refreshToken } = getTokens();
+
+        const resp: IResponse = await invokeApi({
+            path: "/boards/update-position",
+            method: "PUT",
+            body,
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "X-Refresh": refreshToken,
+            },
+        });
+        return resp;
+    } catch (error) {
+        throw error;
+    }
+};

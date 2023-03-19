@@ -25,6 +25,7 @@ const sectionStyles = {
     position: "relative",
     padding: "2rem",
     overflowY: "auto",
+    minHeight: "100vh",
 };
 
 interface Props {

@@ -10,6 +10,7 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import AutoFixHighOutlinedIcon from "@mui/icons-material/AutoFixHighOutlined";
 import Divider from "@mui/material/Divider";
 import { IGetSingleBoardResponse } from "../../utils/types";
+import EmojiPicker from "../common/EmojiPicker";
 
 interface Props {
     data?: IGetSingleBoardResponse;
@@ -61,12 +62,16 @@ const SingleBoardHeader = ({ data }: Props) => {
                     </IconButton>
                 </Box>
             </Box>
-            <Box mt="1rem">
-                <Box>{/* Emoji Picker */}</Box>
+            <Box
+                mt="1rem"
+                sx={{ display: "flex", alignItems: "center", gap: "1rem" }}
+            >
+                <EmojiPicker icon={data?.icon} />
                 <Typography variant="h4" fontWeight="700">
                     {data?.title}
                 </Typography>
             </Box>
+            <Typography>{data?.description}</Typography>
             <Box
                 sx={{
                     display: "flex",
