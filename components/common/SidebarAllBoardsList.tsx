@@ -36,7 +36,6 @@ const SidebarAllBoardsList = ({ handleDragEnd, boards }: Props) => {
     return (
         <>
             <BoardCreateModal
-                title="create-board"
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
             />

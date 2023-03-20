@@ -30,11 +30,7 @@ export default function Home() {
                     justifyContent: "center",
                 }}
             >
-                <BoardCreateModal
-                    title="create-board"
-                    isOpen={isModalOpen}
-                    onClose={onClose}
-                />
+                <BoardCreateModal isOpen={isModalOpen} onClose={onClose} />
                 {boards.boardsCount === 0 && (
                     <LoadingButton
                         variant="outlined"

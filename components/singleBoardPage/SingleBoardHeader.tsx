@@ -11,14 +11,23 @@ import AutoFixHighOutlinedIcon from "@mui/icons-material/AutoFixHighOutlined";
 import Divider from "@mui/material/Divider";
 import { IGetSingleBoardResponse } from "../../utils/types";
 import EmojiPicker from "../common/EmojiPicker";
+import { useState } from "react";
+import BoardUpdateModal from "../Modal/BoardUpdateModal";
 
 interface Props {
     data?: IGetSingleBoardResponse;
 }
 
 const SingleBoardHeader = ({ data }: Props) => {
+    const [isShowUpdateBoard, setIsShowUpdateBoard] = useState(false);
+
     return (
         <>
+            <BoardUpdateModal
+                isOpen={isShowUpdateBoard}
+                onClose={() => setIsShowUpdateBoard(false)}
+                data={data}
+            />
             <Box
                 sx={{
                     display: "flex",
@@ -50,6 +59,7 @@ const SingleBoardHeader = ({ data }: Props) => {
                         aria-label="edit board"
                         title="Edit Board"
                         color="info"
+                        onClick={() => setIsShowUpdateBoard(true)}
                     >
                         <AutoFixHighOutlinedIcon />
                     </IconButton>

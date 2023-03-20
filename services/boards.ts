@@ -1,6 +1,7 @@
 import axios from "axios";
 import { invokeApi } from "../lib/api";
 import { ICreateBoardInput } from "../schemas/createBoardSchema";
+import { TUpdateBoardInput } from "../schemas/updateBoardSchema";
 import { getTokens } from "../utils/helper";
 import {
     IBoard,
@@ -101,14 +102,20 @@ export const updateBoardPosition = async (body: {
     }
 };
 
-export const updateBoard = async (body: { boards: { _id: string }[] }) => {
+export const updateBoard = async ({
+    id,
+    reqBody,
+}: {
+    id: string;
+    reqBody: TUpdateBoardInput;
+}) => {
     try {
         const { accessToken, refreshToken } = getTokens();
 
         const resp: IResponse = await invokeApi({
-            path: "/boards/update-position",
+            path: `/boards/${id}`,
             method: "PUT",
-            body,
+            body: reqBody,
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 "X-Refresh": refreshToken,
