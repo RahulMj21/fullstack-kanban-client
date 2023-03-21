@@ -1,17 +1,16 @@
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import AutoFixHighOutlinedIcon from "@mui/icons-material/AutoFixHighOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import StarBoarderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
+import StarOutlinedIcon from "@mui/icons-material/StarOutlined";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
 import Chip from "@mui/material/Chip";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import StarOutlinedIcon from "@mui/icons-material/StarOutlined";
-import StarBoarderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import AutoFixHighOutlinedIcon from "@mui/icons-material/AutoFixHighOutlined";
 import Divider from "@mui/material/Divider";
-import { IGetSingleBoardResponse } from "../../utils/types";
-import EmojiPicker from "../common/EmojiPicker";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 import { useState } from "react";
+import { IGetSingleBoardResponse } from "../../utils/types";
 import BoardUpdateModal from "../Modal/BoardUpdateModal";
 
 interface Props {
@@ -26,7 +25,6 @@ const SingleBoardHeader = ({ data }: Props) => {
             <BoardUpdateModal
                 isOpen={isShowUpdateBoard}
                 onClose={() => setIsShowUpdateBoard(false)}
-                data={data}
             />
             <Box
                 sx={{
@@ -72,16 +70,14 @@ const SingleBoardHeader = ({ data }: Props) => {
                     </IconButton>
                 </Box>
             </Box>
-            <Box
-                mt="1rem"
+            <Typography
+                my="1rem"
                 sx={{ display: "flex", alignItems: "center", gap: "1rem" }}
+                variant="h4"
+                fontWeight="700"
             >
-                <EmojiPicker icon={data?.icon} />
-                <Typography variant="h4" fontWeight="700">
-                    {data?.title}
-                </Typography>
-            </Box>
-            <Typography>{data?.description}</Typography>
+                {`${data?.icon} ${data?.title}`}
+            </Typography>
             <Box
                 sx={{
                     display: "flex",

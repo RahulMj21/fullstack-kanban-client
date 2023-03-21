@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import EmojiPicker from "../../components/common/EmojiPicker";
 import BaseLayout from "../../components/layout/BaseLayout";
 import SingleBoardHeader from "../../components/singleBoardPage/SingleBoardHeader";
 import { getSingleBoard } from "../../services/boards";

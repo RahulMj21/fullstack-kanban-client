@@ -103,17 +103,17 @@ export const updateBoardPosition = async (body: {
 };
 
 export const updateBoard = async ({
-    id,
+    boardId,
     reqBody,
 }: {
-    id: string;
+    boardId: string;
     reqBody: TUpdateBoardInput;
 }) => {
     try {
         const { accessToken, refreshToken } = getTokens();
 
         const resp: IResponse = await invokeApi({
-            path: `/boards/${id}`,
+            path: `/boards/${boardId}`,
             method: "PUT",
             body: reqBody,
             headers: {

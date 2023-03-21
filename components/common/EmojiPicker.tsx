@@ -1,19 +1,40 @@
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
+import {
+    FieldValues,
+    Path,
+    PathValue,
+    UnPackAsyncDefaultValues,
+    UseFormSetValue,
+} from "react-hook-form";
 
-interface Props {
+interface Props<T extends FieldValues> {
+    setValue: UseFormSetValue<T>;
+    registerKey: Path<UnPackAsyncDefaultValues<T>>;
     icon?: string;
 }
 
-const EmojiPicker = ({ icon }: Props) => {
+function EmojiPicker<T extends FieldValues>({
+    icon,
+    setValue,
+    registerKey,
+}: Props<T>) {
     const [selectedEmoji, setSelectedEmoji] = useState<string>();
     const [isShowPicker, setIsShowPicker] = useState(false);
 
     const handleSelectEmoji = ({ native }: { native: string }) => {
         setSelectedEmoji(native);
+        setValue(
+            registerKey,
+            native as PathValue<
+                UnPackAsyncDefaultValues<T>,
+                Path<UnPackAsyncDefaultValues<T>>
+            >
+        );
+        setIsShowPicker(false);
     };
 
     useEffect(() => {
@@ -23,7 +44,7 @@ const EmojiPicker = ({ icon }: Props) => {
     return (
         <Box sx={{ position: "relative" }}>
             <Typography
-                variant="h4"
+                variant="h5"
                 sx={{ cursor: "pointer", fontWeight: 700 }}
                 onClick={() => setIsShowPicker(!isShowPicker)}
             >
@@ -48,6 +69,6 @@ const EmojiPicker = ({ icon }: Props) => {
             </Box>
         </Box>
     );
-};
+}
 
 export default EmojiPicker;
