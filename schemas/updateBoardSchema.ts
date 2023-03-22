@@ -10,7 +10,7 @@ export const UpdateBoardSchema = object({
         .trim()
         .max(500, "description must contain less than 500 characters")
         .optional(),
-    icon: string().trim().max(2, "you can add only one icon").optional(),
+    icon: string().optional(),
     favourite: boolean().optional(),
 });
 

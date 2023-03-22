@@ -10,7 +10,7 @@ import { getBoards, setBoards } from "../../features/boardSlice";
 import { clearUser, getUser } from "../../features/userSlice";
 import { getMyBoards, updateBoardPosition } from "../../services/boards";
 import { logoutUser } from "../../services/users";
-import { QUERY_My_BOARDS } from "../../utils/constants";
+import { QUERY_MY_BOARDS } from "../../utils/constants";
 import CustomCircullarProgress from "../common/CustomCircullarProgress";
 import SidebarAllBoardsList from "../common/SidebarAllBoardsList";
 import Logo from "../icons/Logo";
@@ -35,7 +35,7 @@ const Sidebar = () => {
     const user = useSelector(getUser);
     const { enqueueSnackbar } = useSnackbar();
 
-    useQuery([QUERY_My_BOARDS], () => getMyBoards(user?._id as string), {
+    useQuery([QUERY_MY_BOARDS], () => getMyBoards(user?._id as string), {
         enabled: !!user,
         onSuccess: (data) => {
             if (data.success) dispatch(setBoards(data?.data || []));
