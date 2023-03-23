@@ -1,8 +1,9 @@
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import IconButton from "@mui/material/IconButton";
+import Popover from "@mui/material/Popover";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import {
     FieldValues,
     Path,
@@ -23,7 +24,18 @@ function EmojiPicker<T extends FieldValues>({
     registerKey,
 }: Props<T>) {
     const [selectedEmoji, setSelectedEmoji] = useState<string>();
-    const [isShowPicker, setIsShowPicker] = useState(false);
+    const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+    const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+    const id = open ? "simple-popover" : undefined;
 
     const handleSelectEmoji = ({ native }: { native: string }) => {
         setSelectedEmoji(native);
@@ -34,7 +46,7 @@ function EmojiPicker<T extends FieldValues>({
                 Path<UnPackAsyncDefaultValues<T>>
             >
         );
-        setIsShowPicker(false);
+        handleClose();
     };
 
     useEffect(() => {
@@ -43,30 +55,25 @@ function EmojiPicker<T extends FieldValues>({
 
     return (
         <Box sx={{ position: "relative" }}>
-            <Typography
-                variant="h5"
-                sx={{ cursor: "pointer", fontWeight: 700 }}
-                onClick={() => setIsShowPicker(!isShowPicker)}
-            >
+            <IconButton aria-describedby={id} onClick={handleClick}>
                 {selectedEmoji}
-            </Typography>
-            <Box
-                sx={{
-                    display: isShowPicker ? "block" : "none",
-                    position: "absolute",
-                    top: "100%",
-                    zIndex: 9999,
+            </IconButton>
+            <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                    vertical: "center",
+                    horizontal: "right",
                 }}
             >
                 <Picker
                     data={data}
                     theme="dark"
                     onEmojiSelect={handleSelectEmoji}
-                    onClickOutside={() => {
-                        if (isShowPicker) setIsShowPicker(false);
-                    }}
                 />
-            </Box>
+            </Popover>
         </Box>
     );
 }

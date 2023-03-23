@@ -23,7 +23,7 @@ const SingleBoardHeader = ({ data }: Props) => {
     return (
         <>
             <BoardUpdateModal
-                key={data?._id}
+                key={JSON.stringify(data)}
                 isOpen={isShowUpdateBoard}
                 onClose={() => setIsShowUpdateBoard(false)}
             />
