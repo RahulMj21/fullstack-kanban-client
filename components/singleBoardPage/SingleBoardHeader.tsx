@@ -1,6 +1,5 @@
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import AutoFixHighOutlinedIcon from "@mui/icons-material/AutoFixHighOutlined";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import StarBoarderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import StarOutlinedIcon from "@mui/icons-material/StarOutlined";
 import Box from "@mui/material/Box";
@@ -12,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import { IGetSingleBoardResponse } from "../../utils/interfaces";
 import BoardUpdateModal from "../Modal/BoardUpdateModal";
+import DeleteBoardPopover from "../Popovers/DeleteBoardPopover";
 
 interface Props {
     data?: IGetSingleBoardResponse;
@@ -62,13 +62,7 @@ const SingleBoardHeader = ({ data }: Props) => {
                     >
                         <AutoFixHighOutlinedIcon />
                     </IconButton>
-                    <IconButton
-                        title="Delete Board"
-                        aria-label="delete board"
-                        color="error"
-                    >
-                        <DeleteOutlinedIcon />
-                    </IconButton>
+                    <DeleteBoardPopover boardId={data?._id || ""} />
                 </Box>
             </Box>
             <Typography

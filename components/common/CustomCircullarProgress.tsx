@@ -3,13 +3,17 @@ import CircularProgress, {
     circularProgressClasses,
 } from "@mui/material/CircularProgress";
 
-const CustomCircullarProgress = ({ ...props }: CircularProgressProps) => {
+interface Props extends CircularProgressProps {
+    progressColor?: string;
+}
+
+const CustomCircullarProgress = ({ progressColor, ...props }: Props) => {
     return (
         <CircularProgress
             variant="indeterminate"
             disableShrink
             sx={{
-                color: "#333",
+                color: progressColor || "#333",
                 animationDuration: "550ms",
                 [`& .${circularProgressClasses.circle}`]: {
                     strokeLinecap: "round",

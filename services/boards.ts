@@ -163,3 +163,21 @@ export const updateBoard = async ({
         throw error;
     }
 };
+
+export const deleteBoard = async (boardId: string) => {
+    try {
+        const { accessToken, refreshToken } = getTokens();
+
+        const resp: IResponse = await invokeApi({
+            path: `/boards/${boardId}`,
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "X-Refresh": refreshToken,
+            },
+        });
+        return resp;
+    } catch (error) {
+        throw error;
+    }
+};
