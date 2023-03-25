@@ -15,7 +15,11 @@ import {
 } from "../../schemas/updateBoardSchema";
 import { getSingleBoard, updateBoard } from "../../services/boards";
 import { formSubmitButtonStyles } from "../../styles/theme";
-import { QUERY_MY_BOARDS, QUERY_SINGLE_BOARD } from "../../utils/constants";
+import {
+    QUERY_FAVOURITE_BOARDS,
+    QUERY_MY_BOARDS,
+    QUERY_SINGLE_BOARD,
+} from "../../utils/constants";
 import CustomCircullarProgress from "../common/CustomCircullarProgress";
 import EmojiPicker from "../common/EmojiPicker";
 import { CustomTextArea, IOSSwitch } from "../CustomStyledComponents/Inputs";
@@ -60,6 +64,9 @@ const BoardUpdateModal = ({ isOpen, onClose }: Props) => {
                 refetch();
                 queryClient.invalidateQueries({
                     queryKey: [QUERY_MY_BOARDS],
+                });
+                queryClient.invalidateQueries({
+                    queryKey: [QUERY_FAVOURITE_BOARDS],
                 });
                 onClose();
             },

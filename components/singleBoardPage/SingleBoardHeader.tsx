@@ -10,7 +10,7 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
-import { IGetSingleBoardResponse } from "../../utils/types";
+import { IGetSingleBoardResponse } from "../../utils/interfaces";
 import BoardUpdateModal from "../Modal/BoardUpdateModal";
 
 interface Props {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IInvokeApi } from "../utils/types";
+import { IInvokeApi } from "../utils/interfaces";
 
 const accessToken =
     typeof window !== "undefined" ? localStorage.getItem("accessToken") : "";

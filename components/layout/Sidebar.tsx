@@ -7,38 +7,40 @@ import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import { useDispatch, useSelector } from "react-redux";
 import { getBoards, setBoards } from "../../features/boardSlice";
-import { clearUser, getUser } from "../../features/userSlice";
-import { getMyBoards, updateBoardPosition } from "../../services/boards";
+import {
+    getFavouriteBoards,
+    setFavouriteBoards,
+} from "../../features/favouriteBoardSlice";
+import { clearUser } from "../../features/userSlice";
+import {
+    fetchFavouriteBoards,
+    fetchMyBoards,
+    updateBoardPosition,
+    updateFavouriteBoardPosition,
+} from "../../services/boards";
 import { logoutUser } from "../../services/users";
-import { QUERY_MY_BOARDS } from "../../utils/constants";
+import { sidebarOverflowDivStyles, sidebarStyles } from "../../styles/theme";
+import { QUERY_FAVOURITE_BOARDS, QUERY_MY_BOARDS } from "../../utils/constants";
 import CustomCircullarProgress from "../common/CustomCircullarProgress";
-import SidebarAllBoardsList from "../common/SidebarAllBoardsList";
+import SidebarBoardsList from "../common/SidebarBoardsList";
 import Logo from "../icons/Logo";
-
-const sidebarStyles = {
-    position: "fixed",
-    top: "0",
-    left: "0",
-    background: "#555",
-    paddingY: "2rem",
-    display: "flex",
-    height: "100vh",
-    flexDirection: "column",
-    overflowX: "hidden",
-    gap: "2rem",
-};
 
 const Sidebar = () => {
     const dispatch = useDispatch();
     const router = useRouter();
     const boards = useSelector(getBoards);
-    const user = useSelector(getUser);
+    const favouriteBoards = useSelector(getFavouriteBoards);
     const { enqueueSnackbar } = useSnackbar();
 
-    useQuery([QUERY_MY_BOARDS], () => getMyBoards(user?._id as string), {
-        enabled: !!user,
+    useQuery([QUERY_MY_BOARDS], fetchMyBoards, {
         onSuccess: (data) => {
             if (data.success) dispatch(setBoards(data?.data || []));
+        },
+    });
+
+    useQuery([QUERY_FAVOURITE_BOARDS], fetchFavouriteBoards, {
+        onSuccess: (data) => {
+            if (data.success) dispatch(setFavouriteBoards(data?.data || []));
         },
     });
 
@@ -60,49 +62,32 @@ const Sidebar = () => {
         }
     );
 
-    const { mutate } = useMutation(updateBoardPosition);
-
-    const handleDragEnd = async ({
-        source,
-        destination,
-    }: {
-        source: any;
-        destination: any;
-    }) => {
-        try {
-            if (source.index === destination.index) return;
-
-            const newBoards = [...boards.allBoards];
-            const [removed] = newBoards.splice(source.index, 1);
-            newBoards.splice(destination.index, 0, removed);
-            dispatch(setBoards(newBoards));
-
-            const reqBody = newBoards.map((board) => {
-                return {
-                    _id: board._id,
-                };
-            });
-            mutate({ boards: reqBody });
-        } catch (error) {
-            enqueueSnackbar("cannot update board position", {
-                variant: "error",
-            });
-        }
-    };
-
     return (
         <Box component="aside" width="15rem" title="sidebar" sx={sidebarStyles}>
             <Box sx={{ flex: 1 }}>
                 <NextLink
                     href="/"
-                    style={{ display: "flex", justifyContent: "center" }}
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginBottom: "1rem",
+                    }}
                 >
                     <Logo />
                 </NextLink>
-                <SidebarAllBoardsList
-                    handleDragEnd={handleDragEnd}
-                    boards={boards}
-                />
+                <Box sx={sidebarOverflowDivStyles}>
+                    <SidebarBoardsList
+                        title="Favourites"
+                        boards={favouriteBoards}
+                        positionUpdateFn={updateFavouriteBoardPosition}
+                    />
+                    <SidebarBoardsList
+                        title="Boards"
+                        boards={boards}
+                        positionUpdateFn={updateBoardPosition}
+                        canAdd={true}
+                    />
+                </Box>
             </Box>
             <Button
                 startIcon={<LogoutIcon />}

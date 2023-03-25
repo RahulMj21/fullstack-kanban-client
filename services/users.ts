@@ -2,7 +2,12 @@ import { invokeApi } from "../lib/api";
 import { TLoginInput } from "../schemas/loginSchema";
 import { TRegisterInput } from "../schemas/registerSchema";
 import { getTokens } from "../utils/helper";
-import { IResponse, IResponseWithData, ITokens, IUser } from "../utils/types";
+import {
+    IResponse,
+    IResponseWithData,
+    ITokens,
+    IUser,
+} from "../utils/interfaces";
 
 export const registerUser = async (input: TRegisterInput) => {
     try {

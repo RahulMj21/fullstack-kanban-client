@@ -8,7 +8,7 @@ import {
     IGetSingleBoardResponse,
     IResponse,
     IResponseWithData,
-} from "../utils/types";
+} from "../utils/interfaces";
 
 export const getAllBoards = async () => {
     try {
@@ -27,12 +27,28 @@ export const getAllBoards = async () => {
     }
 };
 
-export const getMyBoards = async (userId: string) => {
+export const fetchMyBoards = async () => {
     try {
         const { accessToken, refreshToken } = getTokens();
 
         const resp: IResponseWithData<IBoard[]> = await invokeApi({
-            path: `/boards/user/${userId}`,
+            path: `/boards/my-boards`,
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "X-Refresh": refreshToken,
+            },
+        });
+        return resp;
+    } catch (error) {
+        throw error;
+    }
+};
+export const fetchFavouriteBoards = async () => {
+    try {
+        const { accessToken, refreshToken } = getTokens();
+
+        const resp: IResponseWithData<IBoard[]> = await invokeApi({
+            path: `/boards/favourites`,
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 "X-Refresh": refreshToken,
@@ -89,6 +105,27 @@ export const updateBoardPosition = async (body: {
 
         const resp: IResponse = await invokeApi({
             path: "/boards/update-position",
+            method: "PUT",
+            body,
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "X-Refresh": refreshToken,
+            },
+        });
+        return resp;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const updateFavouriteBoardPosition = async (body: {
+    boards: { _id: string }[];
+}) => {
+    try {
+        const { accessToken, refreshToken } = getTokens();
+
+        const resp: IResponse = await invokeApi({
+            path: "/boards/update-favourite-position",
             method: "PUT",
             body,
             headers: {

@@ -8,23 +8,24 @@ const initialState: { allBoards: IBoard[]; boardsCount: number } = {
     boardsCount: 0,
 };
 
-export const boardSlice = createSlice({
-    name: "boards",
+export const favouriteBoardSlice = createSlice({
+    name: "favouriteBoards",
     initialState,
     reducers: {
-        setBoards: (state, action: PayloadAction<IBoard[]>) => {
+        setFavouriteBoards: (state, action: PayloadAction<IBoard[]>) => {
             state.allBoards = action.payload;
             state.boardsCount = action.payload.length;
         },
-        clearBoards: (state) => {
+        clearFavouriteBoards: (state) => {
             state.allBoards = [];
             state.boardsCount = 0;
         },
     },
 });
 
-export const { setBoards, clearBoards } = boardSlice.actions;
+export const { clearFavouriteBoards, setFavouriteBoards } =
+    favouriteBoardSlice.actions;
 
-export const getBoards = (state: RootState) => state.boards;
+export const getFavouriteBoards = (state: RootState) => state.favouriteBoards;
 
-export default boardSlice.reducer;
+export default favouriteBoardSlice.reducer;
