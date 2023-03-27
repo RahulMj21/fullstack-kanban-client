@@ -112,6 +112,9 @@ const BoardUpdateModal = ({ isOpen, onClose }: Props) => {
                         defaultValue={data?.description}
                         {...register("description")}
                     />
+                    <Typography fontSize="0.75rem" color="crimson">
+                        {errors.description?.message}
+                    </Typography>
                 </Box>
                 <Box
                     sx={{

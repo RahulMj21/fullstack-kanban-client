@@ -55,11 +55,7 @@ const SidebarDragDropContext = ({ handleDragEnd, boards, title }: Props) => {
                                             >
                                                 <ListItemText
                                                     primary={`${board.icon} ${board.title}`}
-                                                    sx={{
-                                                        px: "0.5rem",
-                                                        textTransform:
-                                                            "capitalize",
-                                                    }}
+                                                    sx={{ px: "0.5rem" }}
                                                 />
                                             </ListItemButton>
                                         </NextLink>

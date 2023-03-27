@@ -1,4 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl/FormControl";
 import TextField from "@mui/material/TextField";
@@ -13,6 +15,7 @@ import {
 import { createBoard } from "../../services/boards";
 import { formSubmitButtonStyles } from "../../styles/theme";
 import CustomCircullarProgress from "../common/CustomCircullarProgress";
+import { CustomTextArea } from "../CustomStyledComponents/Inputs";
 import ModalLayout from "./ModalLayout";
 
 interface Props {
@@ -72,18 +75,21 @@ const BoardCreateModal = ({ onClose, isOpen }: Props) => {
                     error={!!errors.title}
                     label="Title"
                     helperText={errors.title ? errors.title.message : null}
-                    variant="outlined"
+                    variant="standard"
                     {...register("title")}
                 />
-                <TextField
-                    error={!!errors.description}
-                    label="Description"
-                    helperText={
-                        errors.description ? errors.description.message : null
-                    }
-                    variant="outlined"
-                    {...register("description")}
-                />
+                <Box width="100%">
+                    <Typography mb="0.3rem" fontSize="0.75rem" color="#c2c1c1">
+                        Description
+                    </Typography>
+                    <CustomTextArea
+                        placeholder="Write something..."
+                        {...register("description")}
+                    />
+                    <Typography fontSize="0.75rem" color="crimson">
+                        {errors.description?.message}
+                    </Typography>
+                </Box>
                 <Button
                     sx={formSubmitButtonStyles}
                     variant="contained"

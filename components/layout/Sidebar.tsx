@@ -76,17 +76,21 @@ const Sidebar = () => {
                     <Logo />
                 </NextLink>
                 <Box sx={sidebarOverflowDivStyles}>
-                    <SidebarBoardsList
-                        title="Favourites"
-                        boards={favouriteBoards}
-                        positionUpdateFn={updateFavouriteBoardPosition}
-                    />
-                    <SidebarBoardsList
-                        title="Boards"
-                        boards={boards}
-                        positionUpdateFn={updateBoardPosition}
-                        canAdd={true}
-                    />
+                    {favouriteBoards.allBoards.length > 0 && (
+                        <SidebarBoardsList
+                            title="Favourites"
+                            boards={favouriteBoards}
+                            positionUpdateFn={updateFavouriteBoardPosition}
+                        />
+                    )}
+                    {boards.allBoards.length > 0 && (
+                        <SidebarBoardsList
+                            title="Boards"
+                            boards={boards}
+                            positionUpdateFn={updateBoardPosition}
+                            canAdd={true}
+                        />
+                    )}
                 </Box>
             </Box>
             <Button
@@ -99,9 +103,9 @@ const Sidebar = () => {
                     textTransform: "capitalize",
                 }}
                 onClick={() => mutateLogout()}
+                endIcon={isLogoutLoading && <CustomCircullarProgress />}
             >
                 Log out
-                {isLogoutLoading && <CustomCircullarProgress />}
             </Button>
         </Box>
     );
