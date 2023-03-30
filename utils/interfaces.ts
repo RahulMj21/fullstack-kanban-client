@@ -54,3 +54,7 @@ export interface IBoards {
 export interface IGetSingleBoardResponse extends IBoard {
     sections: any[];
 }
+
+export interface ICreateSectionReqBody {
+    title: string;
+}
