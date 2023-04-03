@@ -12,7 +12,7 @@ import Sidebar from "./Sidebar";
 const mainStyles = {
     background: "#333",
     height: "100vh",
-    width: "100%",
+    width: "100vw",
     overflow: "hidden",
     position: "ralative",
     transition: "all 0.4s ease",
@@ -24,7 +24,7 @@ const sectionStyles = {
     width: "calc(100vw - 15rem)",
     position: "relative",
     padding: "2rem",
-    overflowY: "auto",
+    overflow: "hidden",
     minHeight: "100vh",
 };
 

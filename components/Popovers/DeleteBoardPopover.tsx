@@ -39,9 +39,6 @@ const DeleteBoardPopover = ({ boardId }: Props) => {
 
     const { mutate, isLoading } = useMutation(deleteBoard, {
         onSuccess: () => {
-            // queryClient.invalidateQueries({
-            //     queryKey: [QUERY_SINGLE_BOARD, boardId],
-            // });
             queryClient.invalidateQueries({
                 queryKey: [QUERY_MY_BOARDS],
             });

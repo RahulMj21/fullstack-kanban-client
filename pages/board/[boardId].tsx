@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import BaseLayout from "../../components/layout/BaseLayout";
+import Kanban from "../../components/singleBoardPage/Kanban";
 import SingleBoardHeader from "../../components/singleBoardPage/SingleBoardHeader";
 import { getSingleBoard } from "../../services/boards";
 import { QUERY_SINGLE_BOARD } from "../../utils/constants";
@@ -20,6 +21,7 @@ const SingleBoard = () => {
     return (
         <BaseLayout loading={isLoading && !data} title="single board">
             <SingleBoardHeader data={data} />
+            <Kanban />
         </BaseLayout>
     );
 };

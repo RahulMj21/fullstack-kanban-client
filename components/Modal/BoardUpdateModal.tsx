@@ -61,13 +61,13 @@ const BoardUpdateModal = ({ isOpen, onClose }: Props) => {
                     variant: "success",
                 });
                 reset();
-                refetch();
                 queryClient.invalidateQueries({
                     queryKey: [QUERY_MY_BOARDS],
                 });
                 queryClient.invalidateQueries({
                     queryKey: [QUERY_FAVOURITE_BOARDS],
                 });
+                refetch();
                 onClose();
             },
             onError: () => {

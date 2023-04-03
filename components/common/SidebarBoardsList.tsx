@@ -75,7 +75,6 @@ const SidebarAllBoardsList = ({
                     alignItems: "center",
                     justifyContent: "space-between",
                     gap: "2rem",
-                    mt: "1.875rem",
                     px: "0.9rem",
                 }}
             >

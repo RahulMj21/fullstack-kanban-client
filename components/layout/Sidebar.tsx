@@ -64,34 +64,32 @@ const Sidebar = () => {
 
     return (
         <Box component="aside" width="15rem" title="sidebar" sx={sidebarStyles}>
-            <Box sx={{ flex: 1 }}>
-                <NextLink
-                    href="/"
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginBottom: "1rem",
-                    }}
-                >
-                    <Logo />
-                </NextLink>
-                <Box sx={sidebarOverflowDivStyles}>
-                    {favouriteBoards.allBoards.length > 0 && (
-                        <SidebarBoardsList
-                            title="Favourites"
-                            boards={favouriteBoards}
-                            positionUpdateFn={updateFavouriteBoardPosition}
-                        />
-                    )}
-                    {boards.allBoards.length > 0 && (
-                        <SidebarBoardsList
-                            title="Boards"
-                            boards={boards}
-                            positionUpdateFn={updateBoardPosition}
-                            canAdd={true}
-                        />
-                    )}
-                </Box>
+            <NextLink
+                href="/"
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginBottom: "1rem",
+                }}
+            >
+                <Logo />
+            </NextLink>
+            <Box sx={sidebarOverflowDivStyles}>
+                {favouriteBoards.allBoards.length > 0 && (
+                    <SidebarBoardsList
+                        title="Favourites"
+                        boards={favouriteBoards}
+                        positionUpdateFn={updateFavouriteBoardPosition}
+                    />
+                )}
+                {boards.allBoards.length > 0 && (
+                    <SidebarBoardsList
+                        title="Boards"
+                        boards={boards}
+                        positionUpdateFn={updateBoardPosition}
+                        canAdd={true}
+                    />
+                )}
             </Box>
             <Button
                 startIcon={<LogoutIcon />}
@@ -99,7 +97,7 @@ const Sidebar = () => {
                 color="warning"
                 sx={{
                     padding: "0.4rem 1.3rem",
-                    mx: "1rem",
+                    m: "1rem 1rem 0",
                     textTransform: "capitalize",
                 }}
                 onClick={() => mutateLogout()}
