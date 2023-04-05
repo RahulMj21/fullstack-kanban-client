@@ -12,6 +12,7 @@ import { useState } from "react";
 import { IGetSingleBoardResponse } from "../../utils/interfaces";
 import BoardUpdateModal from "../Modal/BoardUpdateModal";
 import DeleteBoardPopover from "../Popovers/DeleteBoardPopover";
+import AddSectionModal from "../Modal/AddSectionModal";
 
 interface Props {
     data?: IGetSingleBoardResponse;
@@ -19,6 +20,7 @@ interface Props {
 
 const SingleBoardHeader = ({ data }: Props) => {
     const [isShowUpdateBoard, setIsShowUpdateBoard] = useState(false);
+    const [isShowAddSection, setIsShowAddSection] = useState(false);
 
     return (
         <>
@@ -26,6 +28,10 @@ const SingleBoardHeader = ({ data }: Props) => {
                 key={JSON.stringify(data)}
                 isOpen={isShowUpdateBoard}
                 onClose={() => setIsShowUpdateBoard(false)}
+            />
+            <AddSectionModal
+                isOpen={isShowAddSection}
+                onClose={() => setIsShowAddSection(false)}
             />
             <Box
                 sx={{
@@ -85,6 +91,7 @@ const SingleBoardHeader = ({ data }: Props) => {
                 <Button
                     startIcon={<AddOutlinedIcon />}
                     sx={{ textTransform: "capitalize" }}
+                    onClick={() => setIsShowAddSection(true)}
                 >
                     Add Section
                 </Button>

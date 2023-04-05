@@ -5,6 +5,7 @@ import Card from "@mui/material/Card";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { DraggableProvided, DraggableStateSnapshot } from "react-beautiful-dnd";
+import { blue } from "@mui/material/colors";
 
 interface Props {
     provided: DraggableProvided;
@@ -31,27 +32,27 @@ const TaskCard = ({ provided, snapshot }: Props) => {
                     justifyContent: "flex-end",
                 }}
             >
-                <IconButton color="info" size="small">
-                    <EditIcon
-                        color="disabled"
-                        sx={{
-                            "&:hover": {
-                                color: "blue",
-                            },
-                        }}
-                        fontSize="small"
-                    />
+                <IconButton
+                    color="info"
+                    size="small"
+                    sx={{
+                        "&:hover svg, &:focus svg": {
+                            color: blue[200],
+                        },
+                    }}
+                >
+                    <EditIcon color="disabled" fontSize="small" />
                 </IconButton>
-                <IconButton color="error" size="small">
-                    <DeleteOutlinedIcon
-                        sx={{
-                            "&:hover": {
-                                color: "tomato",
-                            },
-                        }}
-                        color="disabled"
-                        fontSize="small"
-                    />
+                <IconButton
+                    color="error"
+                    size="small"
+                    sx={{
+                        "&:hover svg, &:focus svg": {
+                            color: "tomato",
+                        },
+                    }}
+                >
+                    <DeleteOutlinedIcon color="disabled" fontSize="small" />
                 </IconButton>
             </Box>
         </Card>

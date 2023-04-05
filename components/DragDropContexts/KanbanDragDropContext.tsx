@@ -1,15 +1,29 @@
 import Box from "@mui/material/Box";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { MOCK_SECTIONS } from "../../utils/constants";
+import { MOCK_SECTIONS, QUERY_SINGLE_BOARD } from "../../utils/constants";
 import KanbanColumnHeader from "../singleBoardPage/KanbanColumnHeader";
 import TaskCard from "../singleBoardPage/TaskCard";
+import { useRouter } from "next/router";
+import { useQuery } from "@tanstack/react-query";
+import { getSingleBoard } from "../../services/boards";
 
 const KanbanDragDropContext = () => {
+    const router = useRouter();
+    const boardId = router.query.boardId as string;
+
+    const { data } = useQuery(
+        [QUERY_SINGLE_BOARD, boardId],
+        () => getSingleBoard(boardId),
+        {
+            enabled: !!boardId,
+        }
+    );
+
     const handleDragEnd = () => {};
 
     return (
         <DragDropContext onDragEnd={handleDragEnd}>
-            {MOCK_SECTIONS.map(({ title }) => {
+            {data?.sections.map(({ title }) => {
                 return (
                     <Box sx={{ flex: "0 0 15rem" }} key={title}>
                         <KanbanColumnHeader {...{ title }} />

@@ -65,13 +65,18 @@ const AddSectionModal = ({ onClose, isOpen }: Props) => {
 
     return (
         <ModalLayout title="create-section" onClose={onClose} isOpen={isOpen}>
-            <FormControl component="form" onSubmit={handleSubmit(onSubmit)}>
+            <FormControl
+                sx={{ width: "22rem", maxWidth: "100%" }}
+                component="form"
+                onSubmit={handleSubmit(onSubmit)}
+            >
                 <TextField
                     error={!!errors.title}
                     label="Title"
                     helperText={errors.title ? errors.title.message : null}
-                    variant="standard"
+                    variant="outlined"
                     {...register("title")}
+                    sx={{ my: "1rem" }}
                 />
                 <Button
                     sx={formSubmitButtonStyles}
